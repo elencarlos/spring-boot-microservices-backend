@@ -1,0 +1,80 @@
+version: '3.5'
+
+networks:
+  posterr-network:
+
+services:
+  gateway-service:
+    container_name: gateway-service
+    build:
+      context: gateway-service
+      dockerfile: Dockerfile
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-discovery-service:8761/eureka
+    restart: unless-stopped
+    networks:
+      - posterr-network
+    expose:
+      - 8080
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-discovery-service
+
+  eureka-discovery-service:
+    container_name: eureka-discovery-service
+    build:
+      context: eureka-discovery-service
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    networks:
+      - posterr-network
+    expose:
+      - 8761
+    ports:
+      - "8761:8761"
+
+  user-service:
+    container_name: user-service
+    build:
+      context: user-service
+      dockerfile: Dockerfile
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-discovery-service:8761/eureka
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/posterr
+    restart: unless-stopped
+    networks:
+      - posterr-network
+    depends_on:
+      - eureka-discovery-service
+      - postgres
+
+  post-service:
+    container_name: post-service
+    build:
+      context: post-service
+      dockerfile: Dockerfile
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-discovery-service:8761/eureka
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/posterr
+    restart: unless-stopped
+    networks:
+      - posterr-network
+    depends_on:
+      - postgres
+      - eureka-discovery-service
+
+  postgres:
+    container_name: postgres
+    image: 'postgres:12-alpine'
+    expose:
+      - 5432
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=posterr
+    restart: unless-stopped
+    networks:
+      - posterr-network
