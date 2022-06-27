@@ -20,9 +20,9 @@
         <spring-boot.version>2.7.1</spring-boot.version>
     </properties>
     <modules>
+        <module>eureka-discovery-service</module>
         <module>gateway-service</module>
         <module>post-service</module>
         <module>user-service</module>
-        <module>eureka-discovery-service</module>
     </modules>
 </project>

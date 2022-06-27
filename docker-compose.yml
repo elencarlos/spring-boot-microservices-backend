@@ -42,6 +42,9 @@ services:
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-discovery-service:8761/eureka
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/posterr
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
     restart: unless-stopped
     networks:
       - posterr-network
@@ -57,6 +60,9 @@ services:
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-discovery-service:8761/eureka
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/posterr
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
     restart: unless-stopped
     networks:
       - posterr-network
