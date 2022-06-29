@@ -1,5 +1,7 @@
 package com.posterr.postservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.posterr.postservice.models.enums.PostType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -56,6 +58,7 @@ public class Post {
     @JoinColumn(name = "quoted_post_id", insertable = false, updatable = false)
     private Post quotedPost;
 
+    @JsonIgnore
     @Transient
     User user;
 

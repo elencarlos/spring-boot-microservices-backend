@@ -2,10 +2,15 @@ package com.posterr.postservice.resources;
 
 import com.posterr.postservice.feignclients.UserFeignClient;
 import com.posterr.postservice.models.Post;
-import com.posterr.postservice.models.PostType;
 import com.posterr.postservice.models.User;
+import com.posterr.postservice.models.enums.PostType;
 import com.posterr.postservice.service.PostService;
 import com.posterr.postservice.service.criteria.PostCriteria;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -35,6 +40,7 @@ public class PostResource {
         this.userFeignClient = userFeignClient;
     }
 
+    @Operation(summary = "List all posts")
     @GetMapping
     public ResponseEntity<Page<Post>> findAll(PostCriteria criteria,
                                                  @PageableDefault(page = DEFAULT_PAGE_NUMBER, size = DEFAULT_PAGE_SIZE)
@@ -47,6 +53,15 @@ public class PostResource {
         return ResponseEntity.ok(posts);
     }
 
+    @Operation(summary = "Find a post by Id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the post",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Post.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Post not found",
+                    content = @Content) })
     @GetMapping("/{id}")
     public ResponseEntity<Post> findById(@PathVariable UUID id) {
         LOGGER.info("REST request to find post by id");
@@ -54,6 +69,7 @@ public class PostResource {
         return ResponseEntity.ok(post);
     }
 
+    @Operation(summary = "Create a post")
     @PostMapping
     public ResponseEntity<Post> create(@Valid @RequestBody Post post) {
         LOGGER.info("REST request to create post");
@@ -62,6 +78,7 @@ public class PostResource {
         return ResponseEntity.ok(newPost);
     }
 
+    @Operation(summary = "Create a repost")
     @PostMapping("/{id}/repost")
     public ResponseEntity<Post> repost(@PathVariable UUID id) {
         LOGGER.info("REST request to repost post");
@@ -73,6 +90,22 @@ public class PostResource {
         toRepost.setRepostCount(toRepost.getRepostCount() + 1);
         postService.createPost(post);
         postService.updatePost(toRepost);
+        return ResponseEntity.ok(post);
+    }
+
+    @Operation(summary = "Create a quote of a post")
+    @PostMapping("/{id}/quote")
+    public ResponseEntity<Post> quotePost(@PathVariable UUID id, String content) {
+        LOGGER.info("REST request to quote post");
+        Post toQuote = postService.findPostById(id);
+        Post post = new Post();
+        post.setType(PostType.QUOTE);
+        post.setUserId(getSimulatedAutheticatedUser().getId());
+        post.setRepost(toQuote);
+        post.setContent(content);
+        toQuote.setQuoteCount(toQuote.getQuoteCount() + 1);
+        postService.createPost(post);
+        postService.updatePost(toQuote);
         return ResponseEntity.ok(post);
     }
 
