@@ -18,20 +18,21 @@ public class UserResource {
 
     final UserService userService;
 
-    private Logger logger = Logger.getLogger(UserResource.class.getName());
+    private final Logger LOG = Logger.getLogger(UserResource.class.getName());
 
     public UserResource(UserService userService) {
         this.userService = userService;
     }
 
-    @GetMapping
-    public ResponseEntity<String> findAll() {
-        return ResponseEntity.ok("Hello User");
-    }
-
     @GetMapping(value = "/{id}")
     public ResponseEntity<User> findById(@PathVariable UUID id) {
-        logger.info("findById: " + id);
+        LOG.info("find user by id: " + id);
         return ResponseEntity.ok(userService.findUserById(id));
+    }
+
+    @GetMapping(value = "/random")
+    public ResponseEntity<User> findRandom() {
+        LOG.info("find random user");
+        return ResponseEntity.ok(userService.findRandomUser());
     }
 }

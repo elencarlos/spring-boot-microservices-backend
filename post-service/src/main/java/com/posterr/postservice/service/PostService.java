@@ -1,9 +1,11 @@
 package com.posterr.postservice.service;
 
+import com.posterr.postservice.feignclients.UserFeignClient;
 import com.posterr.postservice.models.Post;
 import com.posterr.postservice.repository.PostRepository;
 import com.posterr.postservice.service.criteria.PostCriteria;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.posterr.postservice.service.mapper.PostMapper;
+import org.hibernate.FetchNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -13,15 +15,20 @@ import java.util.UUID;
 
 @Service
 public class PostService {
-    final
-    PostRepository postRepository;
+    final PostRepository postRepository;
 
-    public PostService(PostRepository postRepository) {
+    final PostMapper postMapper;
+
+    final UserFeignClient userFeignClient;
+
+    public PostService(PostRepository postRepository, PostMapper postMapper, UserFeignClient userFeignClient) {
         this.postRepository = postRepository;
+        this.postMapper = postMapper;
+        this.userFeignClient = userFeignClient;
     }
 
     public Post findPostById(UUID id) {
-        return postRepository.findById(id).orElseThrow(() -> new RuntimeException("Post not found"));
+        return postRepository.findById(id).orElseThrow(() -> new FetchNotFoundException("Post not found", id));
     }
 
     public Post createPost(Post post) {

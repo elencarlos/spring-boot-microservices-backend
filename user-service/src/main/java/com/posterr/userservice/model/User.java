@@ -3,6 +3,7 @@ package com.posterr.userservice.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -12,8 +13,7 @@ import java.util.UUID;
 @Table(name = "tb_user")
 public class User {
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     public UUID getId() {
@@ -30,7 +30,8 @@ public class User {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = false, unique = true)
+    @Size(max = 14, message = "Username must be less than 14 characters")
     private String username;
 
     @Column(name = "created_at", nullable = false)

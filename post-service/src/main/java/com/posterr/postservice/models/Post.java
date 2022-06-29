@@ -1,45 +1,52 @@
 package com.posterr.postservice.models;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@RequiredArgsConstructor
 @Entity
 @Table(name = "tb_post")
+@EntityListeners(AuditingEntityListener.class)
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
     private UUID id;
 
-    public UUID getId() {
-        return id;
-    }
+    @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PostType type;
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    @Column(name = "content", nullable = false, length = 777)
-    @Size(min = 1, max = 777, message = "Posts can have a maximum of 777 characters")
+    @Column(name = "content", length = 777)
+    @Size(max = 777, message = "Posts can have a maximum of 777 characters")
     private String content;
 
+    @CreatedDate
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
+    @LastModifiedDate
     @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
     @Column(name = "user_id", nullable = false)
     private UUID userId;
 
-    @Column(name = "like_count", nullable = true)
-    private Integer likes = 0;
+    @Column(name = "quote_count", columnDefinition = "int default 0")
+    private Integer quoteCount = 0;
 
-    @Column(name = "repost_count", nullable = true)
-    private Integer reposts = 0;
+    @Column(name = "repost_count", columnDefinition = "int default 0")
+    private Integer repostCount = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "repost_id", insertable = false, updatable = false)
@@ -47,17 +54,9 @@ public class Post {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "quoted_post_id", insertable = false, updatable = false)
-    private Post quotedPostId;
+    private Post quotedPost;
 
-    public Post() {
-    }
-
-    public Post(UUID id, String content, LocalDateTime createdAt, LocalDateTime updatedAt, UUID userId) {
-        this.id = id;
-        this.content = content;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.userId = userId;
-    }
+    @Transient
+    User user;
 
 }
