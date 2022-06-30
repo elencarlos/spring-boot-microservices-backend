@@ -28,8 +28,10 @@ Rest API built with Spring Framework using microservices architecture.
 
 ## 🚀 How to run
 
-#### Requeriments to compile and run
+#### Requeriments to compile and run containerized
 - java jdk 17
+- docker*
+- docker compose*
 
 If you want to recompile and build the artifacts:
 
@@ -44,6 +46,13 @@ After run last command or if you get the .zip pack just run:
 # run docker-compose
 $ docker-compose up --build
 ```
+
+#### Run without docker in H2 database 
+
+    $ cd eureka-discovery-service && ./mvnw spring-boot:run
+    $ cd gateway-service && ./mvnw spring-boot:run
+    $ cd post-service && ./mvnw spring-boot:run
+    $ cd user-service && ./mvnw spring-boot:run
 
 #### Import the postman collection
     Post.postman_collection.json
