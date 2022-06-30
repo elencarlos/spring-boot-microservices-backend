@@ -116,8 +116,6 @@ public class PostResource {
             user = getSimulatedAutheticatedUser();
         }
 
-
-
         Post toRepost = postService.findPostById(id);
 
         //verify if user can create a repost
@@ -138,7 +136,7 @@ public class PostResource {
 
     @Operation(summary = "Create a quote of a post")
     @PostMapping("/{id}/quote")
-    public ResponseEntity<Post> quotePost(@PathVariable UUID id, @RequestBody PostCreationDTO post) {
+    public ResponseEntity<Post> quotePost(@PathVariable UUID id, @Valid @RequestBody PostCreationDTO post) {
         LOGGER.info("REST request to quote post");
 
         if (post.getUser() == null) {

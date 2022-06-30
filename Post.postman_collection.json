@@ -1,0 +1,220 @@
+{
+	"info": {
+		"_postman_id": "4595a96d-7fec-4949-b9da-df341e658d91",
+		"name": "Post",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18486131"
+	},
+	"item": [
+		{
+			"name": "get post by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/post/posts/68609328-e365-89e7-f584-b9e1c6921adb",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"post",
+						"posts",
+						"68609328-e365-89e7-f584-b9e1c6921adb"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get posts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/post/posts?page=0",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"post",
+						"posts"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get posts filtered",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/post/posts?createdAtGreaterThan=2022-01-11&createdAtLessThan=2022-01-14",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"post",
+						"posts"
+					],
+					"query": [
+						{
+							"key": "createdAtGreaterThan",
+							"value": "2022-01-11"
+						},
+						{
+							"key": "createdAtLessThan",
+							"value": "2022-01-14"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create a post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"content\": \"this is my second post\",\n    \"user\": {\n                \"id\": \"cdd8448a-a3a2-1558-b181-a4f7ef6bd93e\"\n            }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/post/posts",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"post",
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create a post with more than 777 characters",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"content\": \"Maecenas consequat, dolor elementum hendrerit ultricies, arcu velit vehicula neque, id mattis nulla odio sed nunc. Cras nec molestie nulla. Praesent ultrices nisl felis, vitae porttitor enim sodales eget. Etiam in dolor eu erat laoreet vestibulum at ac diam. Nam mollis justo sit amet nulla mattis, sed vulputate nisi efficitur. Cras at tristique sem. Nunc mollis erat felis, et bibendum ligula tristique eget. Sed aliquam erat vel turpis rutrum eleifend. Praesent pellentesque metus sapien, id faucibus felis ultricies auctor. Nulla viverra, lectus quis ullamcorper fermentum, nisi leo dictum purus, at cursus mi arcu eget nisl. Vivamus convallis tristique lectus, in placerat sem luctus non. Cras condimentum mattis mauris, ut bibendum nulla tristique et. Donec ac dapibus turpis, tempus molestie odio. Proin ullamcorper ac metus in sagittis. Morbi vel ex vel lectus tincidunt bibendum nec ac felis.\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/post/posts",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"post",
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create a repost",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"cdd8448a-a3a2-1558-b181-a4f7ef6bd93e\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/post/posts/68609328-e365-89e7-f584-b9e1c6921adb/repost",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"post",
+						"posts",
+						"68609328-e365-89e7-f584-b9e1c6921adb",
+						"repost"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create a quote",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"content\": \"Maecenas consequat, dolor elementum hendrerit ultricies, arcu velit vehicula neque, id mattis nulla odio sed nunc.\",\n    \"user\": {\n        \"id\": \"cdd8448a-a3a2-1558-b181-a4f7ef6bd93e\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/post/posts/40ec2188-88da-813c-8a6e-bc53cdfefb81/quote",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"post",
+						"posts",
+						"40ec2188-88da-813c-8a6e-bc53cdfefb81",
+						"quote"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "localhost:8080",
+			"type": "string"
+		}
+	]
+}

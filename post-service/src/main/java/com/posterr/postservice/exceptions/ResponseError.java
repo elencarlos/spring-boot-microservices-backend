@@ -11,7 +11,7 @@ public class ResponseError implements Serializable {
 
     private Long timestamp;
     private HttpStatus status;
-    private String message;
+    private String message = "";
     private Object data;
 
     public Long getTimestamp() {

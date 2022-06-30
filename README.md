@@ -26,6 +26,9 @@ Rest API built with Spring Framework using microservices architecture.
 
 ## 🚀 How to run
 
+#### Requeriments to compile and run
+- java jdk 17
+
 If you want to recompile and build the artifacts:
 
 ```bash
@@ -39,6 +42,10 @@ After run last command or if you get the .zip pack just run:
 # run docker-compose
 $ docker-compose up --build
 ```
+
+#### Import the postman collection
+    Post.postman_collection.json
+
 ### 📚 Api Documentation
 
 [http://localhost:8080/swagger-ui/#](http://localhost:8080/swagger-ui/#)
