@@ -7,12 +7,15 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 import java.util.UUID;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
 public class PostCreationDTO {
-    private UUID userId;
+    @Size(max = 777, message = "Posts can have a maximum of 777 characters")
     private String content;
+    private User user;
 }

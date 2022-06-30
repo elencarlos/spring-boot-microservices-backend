@@ -2,6 +2,7 @@ package com.posterr.postservice.service;
 
 import com.posterr.postservice.feignclients.UserFeignClient;
 import com.posterr.postservice.models.Post;
+import com.posterr.postservice.models.User;
 import com.posterr.postservice.repository.PostRepository;
 import com.posterr.postservice.service.criteria.PostCriteria;
 import com.posterr.postservice.service.mapper.PostMapper;
@@ -55,8 +56,8 @@ public class PostService {
         return postRepository.findAllByUserId(userId, pageable);
     }
 
-    public Boolean userCanPost(UUID userId) {
-        return postRepository.userCanPost(userId);
+    public Boolean userCanPost(User user) {
+        return postRepository.userCanPost(user);
     }
 
     private Specification<Post> createSpecification(PostCriteria criteria) {
@@ -64,7 +65,7 @@ public class PostService {
         Specification<Post> specification = Specification.where(null);
         if (criteria != null) {
             if (criteria.getUserId() != null) {
-                specification = specification.and((Specification<Post>) (root, query, cb) -> cb.equal(root.get("userId"), criteria.getUserId()));
+                specification = specification.and((Specification<Post>) (root, query, cb) -> cb.equal(root.get("user").get("id"), criteria.getUserId()));
             }
             if (criteria.getCreatedAtGreaterThan() != null) {
                 specification = specification.and((Specification<Post>) (root, query, cb) -> cb.greaterThan(

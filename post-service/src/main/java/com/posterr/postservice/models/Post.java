@@ -1,6 +1,9 @@
 package com.posterr.postservice.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.posterr.postservice.models.enums.PostType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -35,15 +38,16 @@ public class Post {
     private String content;
 
     @CreatedDate
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @LastModifiedDate
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt = LocalDateTime.now();
-
-    @Column(name = "user_id", nullable = false, columnDefinition = "uuid")
-    private UUID userId;
 
     @Column(name = "quote_count", columnDefinition = "int default 0")
     private Integer quoteCount = 0;
@@ -58,8 +62,9 @@ public class Post {
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "quoted_post_id", referencedColumnName = "id")
     private Post quotedPost;
-    
-    @Transient
-    User user;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH})
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
 }

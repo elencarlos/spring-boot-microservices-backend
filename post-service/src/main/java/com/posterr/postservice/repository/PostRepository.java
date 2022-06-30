@@ -1,6 +1,7 @@
 package com.posterr.postservice.repository;
 
 import com.posterr.postservice.models.Post;
+import com.posterr.postservice.models.User;
 import org.hibernate.annotations.Cache;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,6 @@ public interface PostRepository extends CrudRepository<Post, UUID>, JpaSpecifica
     @Cacheable("postById")
     Optional<Post> findById(UUID id);
 
-    @Query("SELECT CASE WHEN count(p) < 5 THEN true ELSE false END as canPost FROM Post p WHERE p.userId = ?1 and p.createdAt > CURRENT_DATE-1")
-    Boolean userCanPost(UUID userId);
+    @Query("SELECT CASE WHEN count(p) < 5 THEN true ELSE false END as canPost FROM Post p WHERE p.user = ?1 and p.createdAt > CURRENT_DATE-1")
+    Boolean userCanPost(User user);
 }
