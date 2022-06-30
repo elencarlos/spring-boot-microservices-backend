@@ -1,8 +1,10 @@
-# Posterr Spring Boot Microservices API 
+# Elencarlos Soares 
+
+## Posterr Spring Boot Microservices API
 
 
 ### TLDR
-#### If you are getting the .zip file just run:
+#### If you are getting the .zip file run:
 
 ```bash
 # run docker-compose
