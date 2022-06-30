@@ -2,15 +2,6 @@
 
 ## Posterr Spring Boot Microservices API
 
-
-### TLDR
-#### If you are getting the .zip file run:
-
-```bash
-# run docker-compose
-$ docker-compose up --build
-```
-
 # 🧠 About
 
 Rest API built with Spring Framework using microservices architecture. 
