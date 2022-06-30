@@ -12,20 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class PostDTO {
-    private UUID id;
-
-    private PostType type;
-
+public class PostCreationDTO {
+    private UUID userId;
     private String content;
-
-    private Integer likes;
-
-    private Integer reposts;
-
-    private Post repost;
-
-    private Post quotedPost;
-
-    private User user;
 }

@@ -5,6 +5,7 @@ import org.hibernate.annotations.Cache;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,4 +20,7 @@ public interface PostRepository extends CrudRepository<Post, UUID>, JpaSpecifica
 
     @Cacheable("postById")
     Optional<Post> findById(UUID id);
+
+    @Query("SELECT CASE WHEN count(p) < 5 THEN true ELSE false END as canPost FROM Post p WHERE p.userId = ?1 and p.createdAt > CURRENT_DATE-1")
+    Boolean userCanPost(UUID userId);
 }

@@ -23,6 +23,7 @@ import java.util.UUID;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "uuid")
     private UUID id;
 
     @Column(name = "type", nullable = false)
@@ -41,7 +42,7 @@ public class Post {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id", nullable = false, columnDefinition = "uuid")
     private UUID userId;
 
     @Column(name = "quote_count", columnDefinition = "int default 0")
@@ -50,15 +51,14 @@ public class Post {
     @Column(name = "repost_count", columnDefinition = "int default 0")
     private Integer repostCount = 0;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "repost_id", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "repost_id", referencedColumnName = "id")
     private Post repost;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "quoted_post_id", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "quoted_post_id", referencedColumnName = "id")
     private Post quotedPost;
-
-    @JsonIgnore
+    
     @Transient
     User user;
 

@@ -40,6 +40,7 @@ services:
       context: user-service
       dockerfile: Dockerfile
     environment:
+      - SPRING_ACTIVE_PROFILE=dev
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-discovery-service:8761/eureka
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/posterr
       - SPRING_DATASOURCE_USERNAME=postgres
@@ -58,6 +59,7 @@ services:
       context: post-service
       dockerfile: Dockerfile
     environment:
+      - SPRING_ACTIVE_PROFILE=dev
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-discovery-service:8761/eureka
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/posterr
       - SPRING_DATASOURCE_USERNAME=postgres

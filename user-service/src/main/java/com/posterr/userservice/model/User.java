@@ -1,10 +1,12 @@
 package com.posterr.userservice.model;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -14,6 +16,7 @@ import java.util.UUID;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "uuid")
     private UUID id;
 
     public UUID getId() {
@@ -32,13 +35,17 @@ public class User {
 
     @Column(name = "username", nullable = false, unique = true)
     @Size(max = 14, message = "Username must be less than 14 characters")
+    @NotNull
+    @Pattern(regexp = "^[A-Za-z0-9]+$", message = "Username must be alphanumeric")
     private String username;
 
+    @CreatedDate
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
+    @LastModifiedDate
     @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
     public User() {
     }
